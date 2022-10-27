@@ -6,8 +6,7 @@
 import { useBoardStore } from './stores';
 import { saveStatePlugin } from './helpers/utils';
 
-const store = useBoardStore();
-saveStatePlugin(store);
+saveStatePlugin(useBoardStore());
 </script>
 
 <style>
