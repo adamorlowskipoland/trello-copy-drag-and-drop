@@ -12,6 +12,7 @@ export function saveStatePlugin (store: Store<"boardStore", Board>) {
         'board',
         JSON.stringify(state)
       )
-    }
+    },
+    { detached: true },
   )
 }
