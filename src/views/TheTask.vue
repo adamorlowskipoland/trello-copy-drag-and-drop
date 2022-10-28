@@ -1,20 +1,44 @@
 <template>
-  <div class="task-view">
+  <div v-if="task" class="task-view">
     <div class="flex flex-col flex-grow items-start justify-between px-4">
-      {{ task.name }}
+      <input
+        type="text"
+        class="p-2 w-full mr-2 flex-grow text-xl font-bold outline-0"
+        :value="task.name"
+        @change="updateTaskProperty($event, 'name')"
+        @keyup.enter="updateTaskProperty($event, 'name')"
+      >
+      <textarea
+        name="task"
+        class="relative bg-transparent px-2 mt-2 h-64 border-0 leading-normal w-full outline-0"
+        :value="task.description"
+        @change="updateTaskProperty($event, 'description')"
+        @keyup.enter="updateTaskProperty($event, 'description')"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useBoardStore } from "../stores";
+import type { Task } from '../models';
 
 const props = defineProps<{
   id: string
 }>()
 
 const board = useBoardStore();
-const task = board.getTask(props.id);
+const task = board.getTask(props.id) as Task;
+
+const updateTaskProperty = (event: Event, key: keyof Task) => {
+  if ((event?.target as HTMLInputElement)?.value) {
+    board.updateTaskProperty({
+      task,
+      key,
+      value: (event.target as HTMLInputElement).value,
+    });
+  }
+}
 </script>
 
 <style>

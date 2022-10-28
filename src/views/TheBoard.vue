@@ -27,39 +27,60 @@
               {{ task.description }}
             </p>
           </router-link>
+
+          <input
+            type="text"
+            class="block p-2 w-full bg-transparent outline-0"
+            placeholder="+ Enter new task"
+            @keyup.enter="addTask(column.tasks, $event)"
+          >
         </div>
       </div>
     </div>
 
-<!--    task-->
+    <!--    task-->
     <div
       v-if="$route.name === 'Task'"
       class="task-bg"
       @click.self="$router.push({ name: 'Board' })"
     >
-      <router-view />
+      <router-view/>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useBoardStore } from '../stores';
+import type { Task } from '../models';
 
 const board = useBoardStore();
+
+const addTask = (tasks: Task[], event: Event): void => {
+  if ((event?.target as HTMLInputElement)?.value) {
+    board.createTask({
+      tasks,
+      name: (event.target as HTMLInputElement).value,
+    });
+    (event.target as HTMLInputElement).value = "";
+  }
+}
 </script>
 
 <style>
 .board {
   @apply p-4 bg-teal-100 h-screen overflow-auto;
 }
+
 .column {
   @apply bg-gray-100 p-2 mr-4 text-left shadow rounded;
   min-width: 350px;
 }
+
 .task-bg {
   @apply inset-0 absolute;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
 }
+
 .task {
   @apply flex items-center flex-wrap shadow mb-2 py-2 px-2 rounded bg-white text-gray-600 no-underline;
 }

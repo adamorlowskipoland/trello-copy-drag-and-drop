@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import defaultBoard from '../helpers/default-board';
-import { Board } from '../models';
+import type { Board, Task } from '../models';
+import { uuid } from '../helpers/utils';
 
 const savedBoard = localStorage.getItem("board");
 const board: Board = savedBoard ? JSON.parse(savedBoard) : defaultBoard;
@@ -8,15 +9,29 @@ const board: Board = savedBoard ? JSON.parse(savedBoard) : defaultBoard;
 export const useBoardStore = defineStore("boardStore", {
   state: () => board,
   getters: {
-    getTask: (state) => (id: string) => {
+    getTask: (state) => (id: string): Partial<Task> => {
+      let result = {};
       for (const column of state.columns) {
         for (const task of column.tasks) {
           if (task.id === id) {
-            return task;
+            result = task;
           }
         }
       }
+      return result;
     }
   },
-  actions: {},
+  actions: {
+    createTask({ tasks, name }: { tasks: Task[]; name: string }) {
+      tasks.push({
+        name,
+        id: uuid(),
+        description: '',
+        userAssigned: null,
+      });
+    },
+    updateTaskProperty({ task, key, value }: { task: Task; key: keyof Task; value: string }) {
+      task[key] = value as never;
+    },
+  },
 });
