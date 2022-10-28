@@ -17,12 +17,15 @@
         <div class="list-reset">
           <router-link
             v-for="(task, $taskIndex) of column.tasks"
-            :key="$taskIndex"
+            :key="task.id"
             :to="{ name: 'Task', params: { id: task.id } }"
             tag="div"
             class="task"
             draggable="true"
+            @dragover.prevent
+            @dragenter.prevent
             @dragstart="pickUpTask($event, $taskIndex, $columnIndex)"
+            @drop.stop="handleDrop($event, column.tasks, $columnIndex, $taskIndex)"
           >
             <span class="w-full shrink-0 font-bold">
               {{ task.name }}
@@ -86,20 +89,21 @@ const pickUpTask = (event: DragEvent, taskIndex: number, fromColumnIndex: number
     event.dataTransfer.effectAllowed = "move";
     event.dataTransfer.dropEffect = "move";
     event.dataTransfer.setData("type", "task");
-    event.dataTransfer.setData("task-index", String(taskIndex));
+    event.dataTransfer.setData("from-task-index", String(taskIndex));
     event.dataTransfer.setData("from-column-index", String(fromColumnIndex));
   }
 };
 
-const moveTask = (event: DragEvent, toTasks: Task[]): void => {
+const moveTask = (event: DragEvent, toTasks: Task[], toTaskIndex: number): void => {
   if (event.dataTransfer) {
-    const taskIndex = Number(event.dataTransfer.getData("task-index"));
+    const fromTaskIndex = Number(event.dataTransfer.getData("from-task-index"));
     const fromColumnIndex = Number(event.dataTransfer.getData("from-column-index"));
     const fromTasks = board.columns[fromColumnIndex].tasks;
     board.moveTask({
       fromTasks,
       toTasks,
-      taskIndex,
+      fromTaskIndex,
+      toTaskIndex,
     });
   }
 };
@@ -114,11 +118,16 @@ const moveColumn = (event: DragEvent, toColumnIndex: number): void => {
   }
 };
 
-const handleDrop = (event: DragEvent, toTasks: Task[], toColumnIndex: number): void => {
+const handleDrop = (
+  event: DragEvent,
+  toTasks: Task[],
+  toColumnIndex: number,
+  toTaskIndex: number = toTasks.length
+): void => {
   if (event.dataTransfer) {
     const type = event.dataTransfer.getData("type");
     if (type === "task") {
-      moveTask(event, toTasks);
+      moveTask(event, toTasks, toTaskIndex);
     } else {
       moveColumn(event, toColumnIndex);
     }

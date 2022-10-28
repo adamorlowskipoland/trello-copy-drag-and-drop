@@ -1,5 +1,5 @@
 import type { Store } from 'pinia';
-import { Board } from '../models';
+import type { Board } from '../models';
 
 export function uuid () {
   return Math.random().toString(16).slice(2)
