@@ -5,6 +5,9 @@
         v-for="(column, $columnIndex) in board.columns"
         :key="$columnIndex"
         class="column"
+        @dragover.prevent
+        @dragenter.prevent
+        @drop="moveTask($event, column.tasks)"
       >
         <div class="flex items-center mb-2 font-bold">
           {{ column.name }}
@@ -16,6 +19,8 @@
             :to="{ name: 'Task', params: { id: task.id } }"
             tag="div"
             class="task"
+            draggable
+            @dragstart="pickUpTask($event, $taskIndex, $columnIndex)"
           >
             <span class="w-full shrink-0 font-bold">
               {{ task.name }}
@@ -64,6 +69,28 @@ const addTask = (tasks: Task[], event: Event): void => {
     (event.target as HTMLInputElement).value = "";
   }
 }
+
+const pickUpTask = (event: DragEvent, taskIndex: number, fromColumnIndex: number): void => {
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.setData("task-index", String(taskIndex));
+    event.dataTransfer.setData("from-column-index", String(fromColumnIndex));
+  }
+};
+
+const moveTask = (event: DragEvent, toColumnTasks: Task[]): void => {
+  if (event.dataTransfer) {
+    const taskIndex = Number(event.dataTransfer.getData("task-index"));
+    const fromColumnIndex = Number(event.dataTransfer.getData("from-column-index"));
+    const fromColumnTasks = board.columns[fromColumnIndex].tasks;
+    board.moveTask({
+      fromColumnTasks,
+      toColumnTasks,
+      taskIndex,
+    });
+  }
+};
 </script>
 
 <style>
