@@ -10,9 +10,11 @@
           {{ column.name }}
         </div>
         <div class="list-reset">
-          <div
+          <router-link
             v-for="(task, $taskIndex) of column.tasks"
             :key="$taskIndex"
+            :to="{ name: 'Task', params: { id: task.id } }"
+            tag="div"
             class="task"
           >
             <span class="w-full shrink-0 font-bold">
@@ -24,9 +26,18 @@
             >
               {{ task.description }}
             </p>
-          </div>
+          </router-link>
         </div>
       </div>
+    </div>
+
+<!--    task-->
+    <div
+      v-if="$route.name === 'Task'"
+      class="task-bg"
+      @click.self="$router.push({ name: 'Board' })"
+    >
+      <router-view />
     </div>
   </div>
 </template>
