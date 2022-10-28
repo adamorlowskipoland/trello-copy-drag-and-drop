@@ -3,14 +3,14 @@
     <div class="flex flex-col flex-grow items-start justify-between px-4">
       <input
         type="text"
-        class="p-2 w-full mr-2 flex-grow text-xl font-bold outline-0"
+        class="p-2 w-full mr-2 flex-grow text-xl font-bold "
         :value="task.name"
         @change="updateTaskProperty($event, 'name')"
         @keyup.enter="updateTaskProperty($event, 'name')"
       >
       <textarea
         name="task"
-        class="relative bg-transparent px-2 mt-2 h-64 border-0 leading-normal w-full outline-0"
+        class="relative bg-transparent px-2 mt-2 h-64 border-0 leading-normal w-full "
         :value="task.description"
         @change="updateTaskProperty($event, 'description')"
         @keyup.enter="updateTaskProperty($event, 'description')"

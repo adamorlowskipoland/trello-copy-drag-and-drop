@@ -10,6 +10,9 @@ saveStatePlugin(useBoardStore());
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 body, html {
   height: 100%;
 }

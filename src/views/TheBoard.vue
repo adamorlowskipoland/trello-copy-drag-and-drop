@@ -8,10 +8,10 @@
         :column-index="$columnIndex"
       />
 
-      <div class="column">
+      <div class="column mr-2">
         <input
           type="text"
-          class="block p-2 w-full bg-transparent outline-0"
+          class="block p-2 w-full bg-transparent "
           placeholder="+ Enter new column name"
           v-model="newColumnName"
           @keyup.enter="board.createColumn(newColumnName); newColumnName = ''"

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import defaultBoard from '../helpers/default-board';
-import type { Board, Column, Task } from '../models';
+import type { Board, Task } from '../models';
 import { uuid } from '../helpers/utils';
 
 const savedBoard = localStorage.getItem("board");
