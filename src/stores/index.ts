@@ -22,6 +22,12 @@ export const useBoardStore = defineStore("boardStore", {
     }
   },
   actions: {
+    createColumn(name: string) {
+      this.columns.push({
+        name,
+        tasks: [],
+      });
+    },
     createTask({ tasks, name }: { tasks: Task[]; name: string }) {
       tasks.push({
         name,

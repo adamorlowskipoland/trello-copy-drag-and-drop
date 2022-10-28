@@ -46,6 +46,16 @@
           >
         </div>
       </div>
+
+      <div class="column">
+        <input
+          type="text"
+          class="block p-2 w-full bg-transparent outline-0"
+          placeholder="+ Enter new column name"
+          v-model="newColumnName"
+          @keyup.enter="board.createColumn(newColumnName); newColumnName = ''"
+        >
+      </div>
     </div>
 
     <!--    task-->
@@ -60,10 +70,12 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { useBoardStore } from '../stores';
 import type { Task } from '../models';
 
 const board = useBoardStore();
+const newColumnName = ref("");
 
 const addTask = (tasks: Task[], event: Event): void => {
   if ((event?.target as HTMLInputElement)?.value) {
