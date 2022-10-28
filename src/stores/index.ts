@@ -34,11 +34,11 @@ export const useBoardStore = defineStore("boardStore", {
       task[key] = value as never;
     },
     moveTask(
-      { fromColumnTasks, toColumnTasks, taskIndex }:
-        { fromColumnTasks: Task[]; toColumnTasks: Task[]; taskIndex: number }
+      { fromTasks, toTasks, taskIndex }:
+        { fromTasks: Task[]; toTasks: Task[]; taskIndex: number }
     ) {
-      const taskToMove = fromColumnTasks.splice(taskIndex, 1)[0];
-      toColumnTasks.push(taskToMove);
+      const taskToMove = fromTasks.splice(taskIndex, 1)[0];
+      toTasks.push(taskToMove);
     }
   },
 });

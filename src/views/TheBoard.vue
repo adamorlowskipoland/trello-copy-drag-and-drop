@@ -79,14 +79,14 @@ const pickUpTask = (event: DragEvent, taskIndex: number, fromColumnIndex: number
   }
 };
 
-const moveTask = (event: DragEvent, toColumnTasks: Task[]): void => {
+const moveTask = (event: DragEvent, toTasks: Task[]): void => {
   if (event.dataTransfer) {
     const taskIndex = Number(event.dataTransfer.getData("task-index"));
     const fromColumnIndex = Number(event.dataTransfer.getData("from-column-index"));
-    const fromColumnTasks = board.columns[fromColumnIndex].tasks;
+    const fromTasks = board.columns[fromColumnIndex].tasks;
     board.moveTask({
-      fromColumnTasks,
-      toColumnTasks,
+      fromTasks,
+      toTasks,
       taskIndex,
     });
   }
