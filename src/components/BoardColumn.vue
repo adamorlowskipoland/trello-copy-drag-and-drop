@@ -4,23 +4,23 @@
       :transfer-data="{ type: 'column', fromColumnIndex: columnIndex }"
     >
       <div class="column">
-        <div class="flex items-center mb-2 font-bold">
+        <div class="flex justify-between items-center mb-2 font-bold">
           <input
             v-show="isEditingColumnName"
             type="text"
             ref="refColumnNameInput"
-            class="bg-transparent w-full"
+            class="bg-transparent w-full mr-1"
             v-model="columnName"
             @focusout="isEditingColumnName = false"
             @change="board.updateColumnName(column, columnName); isEditingColumnName = false"
             @keyup.enter="board.updateColumnName(column, columnName); isEditingColumnName = false"
           >
-          <span
-            v-show="!isEditingColumnName"
-            @dblclick="toggleColumnNameEdition"
-          >
+          <span v-show="!isEditingColumnName" class="inline-block" @dblclick="toggleColumnNameEdition">
             {{ column.name }}
           </span>
+          <button v-show="!isEditingColumnName" @click="board.deleteColumn(columnIndex)">
+            <img src="../assets/bin.svg" class="w-4 hover:scale-125" alt="bin icon" title="Delete" />
+          </button>
         </div>
         <div class="list-reset">
           <router-link
