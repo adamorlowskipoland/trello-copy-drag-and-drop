@@ -15,19 +15,19 @@ interface UseBoard {
   moveTask: (
     transferData: TransferDataTask,
     toColumnIndex: number,
-    toTaskIndex: number
+    toTaskIndex?: number
   ) => void;
   moveColumn: (transferData: TransferData, toColumnIndex: number) => void;
   handleDrop: (
     transferData: TransferData | TransferDataTask,
     toColumnIndex: number,
-    toTaskIndex: number
+    toTaskIndex?: number
   ) => void;
 }
 
 export const useBoard = (board = useBoardStore()): UseBoard => {
 
-  const addTask = (event: Event, tasks: Task[]): void => {
+  const addTask: UseBoard["addTask"] = (event, tasks): void => {
     if ((event?.target as HTMLInputElement)?.value) {
       board.createTask({
         tasks,
@@ -37,11 +37,11 @@ export const useBoard = (board = useBoardStore()): UseBoard => {
     }
   }
 
-  const moveTask = (
-    { fromColumnIndex, fromTaskIndex }: TransferDataTask,
-    toColumnIndex: number,
-    toTaskIndex: number
-  ): void => {
+  const moveTask: UseBoard["moveTask"] = (
+    { fromColumnIndex, fromTaskIndex },
+    toColumnIndex,
+    toTaskIndex,
+  ) => {
     const fromTasks = board.columns[fromColumnIndex].tasks;
     const toTasks = board.columns[toColumnIndex].tasks;
 
@@ -49,21 +49,24 @@ export const useBoard = (board = useBoardStore()): UseBoard => {
       fromTasks,
       toTasks,
       fromTaskIndex,
-      toTaskIndex,
+      toTaskIndex: toTaskIndex ?? toTasks.length,
     });
   };
 
-  const moveColumn = ({ fromColumnIndex }: TransferData, toColumnIndex: number): void => {
+  const moveColumn: UseBoard["moveColumn"] = (
+    { fromColumnIndex },
+    toColumnIndex,
+  ): void => {
     board.moveColumn({
       fromColumnIndex,
       toColumnIndex,
     });
   };
 
-  const handleDrop = (
-    transferData: TransferData | TransferDataTask,
-    toColumnIndex: number,
-    toTaskIndex: number
+  const handleDrop: UseBoard["handleDrop"] = (
+    transferData,
+    toColumnIndex,
+    toTaskIndex
   ): void => {
     if (transferData.type === "task") {
       moveTask(transferData as TransferDataTask, toColumnIndex, toTaskIndex);

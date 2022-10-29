@@ -3,7 +3,7 @@
     <div class="flex flex-row items-start">
       <board-column
         v-for="(column, $columnIndex) in board.columns"
-        :key="$columnIndex"
+        :key="column.name + $columnIndex"
         :column="column"
         :column-index="$columnIndex"
       />

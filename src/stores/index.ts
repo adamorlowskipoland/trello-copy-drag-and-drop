@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import defaultBoard from '../helpers/default-board';
-import type { Board, Task } from '../models';
+import type { Board, Column, Task } from '../models';
 import { uuid } from '../helpers/utils';
 
 const savedBoard = localStorage.getItem("board");
@@ -35,6 +35,9 @@ export const useBoardStore = defineStore("boardStore", {
         description: '',
         userAssigned: null,
       });
+    },
+    updateColumnName(column: Column, updatedName: string) {
+      column.name = updatedName;
     },
     updateTaskProperty({ task, key, value }: { task: Task; key: keyof Task; value: string }) {
       task[key] = value as never;

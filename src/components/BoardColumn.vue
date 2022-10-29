@@ -5,7 +5,22 @@
     >
       <div class="column">
         <div class="flex items-center mb-2 font-bold">
-          {{ column.name }}
+          <input
+            v-show="isEditingColumnName"
+            type="text"
+            ref="refColumnNameInput"
+            class="bg-transparent w-full"
+            v-model="columnName"
+            @focusout="isEditingColumnName = false"
+            @change="board.updateColumnName(column, columnName); isEditingColumnName = false"
+            @keyup.enter="board.updateColumnName(column, columnName); isEditingColumnName = false"
+          >
+          <span
+            v-show="!isEditingColumnName"
+            @dblclick="toggleColumnNameEdition"
+          >
+            {{ column.name }}
+          </span>
         </div>
         <div class="list-reset">
           <router-link
@@ -38,13 +53,25 @@ import type { Column, Task } from '../models';
 import ColumnTask from '../components/ColumnTask.vue';
 import DragWrapper from '../components/drag-and-drop/DragWrapper.vue';
 import DropWrapper from '../components/drag-and-drop/DropWrapper.vue';
+import { useBoardStore } from '../stores';
+import { nextTick, ref } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   column: Column;
   columnIndex: number;
 }>()
 
+const board = useBoardStore();
 const { addTask, handleDrop } = useBoard();
+const refColumnNameInput = ref<HTMLInputElement | null>(null);
+const isEditingColumnName = ref(false);
+const columnName = ref(props.column.name);
+
+const toggleColumnNameEdition = async (): Promise<void> => {
+  isEditingColumnName.value = true;
+  await nextTick();
+  refColumnNameInput.value?.focus();
+};
 </script>
 
 <style>
