@@ -1,27 +1,28 @@
 <template>
-  <div
-    class="task"
-    draggable="true"
-    @dragover.prevent
-    @dragenter.prevent
-    @dragstart="pickUpTask($event, taskIndex, columnIndex)"
-    @drop.stop="handleDrop($event, column.tasks, columnIndex, taskIndex)"
-  >
+  <drop-wrapper @drop="handleDrop($event, columnIndex, taskIndex)">
+    <drag-wrapper
+      :transfer-data="{ type: 'task', fromColumnIndex: columnIndex, fromTaskIndex: taskIndex }"
+    >
+      <div class="task">
     <span class="w-full shrink-0 font-bold">
       {{ task.name }}
     </span>
-    <p
-      v-if="task.description"
-      class="w-full shrink-0 mt-1 text-sm"
-    >
-      {{ task.description }}
-    </p>
-  </div>
+        <p
+          v-if="task.description"
+          class="w-full shrink-0 mt-1 text-sm"
+        >
+          {{ task.description }}
+        </p>
+      </div>
+    </drag-wrapper>
+  </drop-wrapper>
 </template>
 
 <script lang="ts" setup>
 import { useBoard } from '../composables/board';
 import type { Column, Task } from '../models';
+import DragWrapper from '../components/drag-and-drop/DragWrapper.vue';
+import DropWrapper from '../components/drag-and-drop/DropWrapper.vue';
 
 defineProps<{
   task: Task;
@@ -30,7 +31,7 @@ defineProps<{
   taskIndex: number;
 }>()
 
-const { pickUpTask, handleDrop } = useBoard();
+const { handleDrop } = useBoard();
 </script>
 
 <style scoped>
