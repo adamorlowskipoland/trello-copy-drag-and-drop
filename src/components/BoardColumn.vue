@@ -1,5 +1,6 @@
 <template>
   <drop-wrapper
+    v-slot="{ isOver }"
     class="mr-4"
     @drop="handleDrop($event, columnIndex)"
   >
@@ -7,7 +8,10 @@
       v-slot="{ isDragging }"
       :transfer-data="{ type: 'column', fromColumnIndex: columnIndex }"
     >
-      <div class="column">
+      <div
+        class="column"
+        :class="{ 'bg-gray-100': !isDragging && !isOver }"
+      >
         <div class="flex justify-between items-center mb-2 font-bold">
           <input
             v-show="isEditingColumnName"
@@ -106,7 +110,7 @@ const toggleColumnNameEdition = async (): Promise<void> => {
 
 <style>
 .column {
-  @apply bg-gray-100 p-2 text-left shadow rounded relative;
+  @apply p-2 text-left shadow rounded relative;
   min-width: 350px;
 }
 </style>

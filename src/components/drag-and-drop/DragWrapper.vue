@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ 'bg-gradient-to-r from-red-500': isDragging }"
+    :class="{ 'bg-gray-100 bg-stripes bg-07': isDragging }"
     draggable="true"
     @dragover.prevent
     @dragenter.prevent

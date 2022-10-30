@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ 'bg-gradient-to-r from-green-500': isOver }"
+    :class="{ 'bg-green-100 bg-stripes bg-07': isOver }"
     @dragenter.prevent
     @dragleave.prevent="isOver = false"
     @dragover.prevent="isOver = true"
