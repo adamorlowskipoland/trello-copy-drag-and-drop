@@ -3,7 +3,7 @@
     draggable="true"
     @dragover.prevent
     @dragenter.prevent
-    @dragstart.self="onDrag"
+    @dragstart.self="drag"
     @dragend="isDragging = false"
     :class="{ 'bg-gradient-to-r from-red-500': isDragging }"
   >
@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const isDragging = ref(false);
 
-const onDrag = (event: DragEvent): void => {
+const drag = (event: DragEvent): void => {
   if (event.dataTransfer) {
     event.dataTransfer.effectAllowed = "copy";
     event.dataTransfer.dropEffect = "copy";

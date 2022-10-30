@@ -3,10 +3,10 @@
     @dragenter.prevent
     @dragleave.prevent="isOver = false"
     @dragover.prevent="isOver = true"
-    @drop.stop="onDrop"
+    @drop.stop="drop"
     :class="{ 'bg-gradient-to-r from-green-500': isOver }"
   >
-    <slot :is-over="isOver" />
+    <slot :is-over="isOver"/>
   </div>
 </template>
 
@@ -19,11 +19,13 @@ const emit = defineEmits<{
 
 const isOver = ref(false);
 
-const onDrop = (event: DragEvent): void => {
-  console.log('%c Line: ondrop, msg: : ', 'color: skyblue', event);
+const drop = (event: DragEvent): void => {
   if (event.dataTransfer) {
-    const transferData = JSON.parse(event.dataTransfer.getData("payload"));
-    emit("drop", transferData);
+    const payload = event.dataTransfer.getData("payload");
+    if (payload) {
+      const transferData = JSON.parse(payload);
+      emit("drop", transferData);
+    }
     isOver.value = false;
   }
 };

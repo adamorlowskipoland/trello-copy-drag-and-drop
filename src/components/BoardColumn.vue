@@ -24,21 +24,18 @@
           </button>
         </div>
         <div class="list-reset">
-          <router-link
+          <column-task
             v-for="(task, $taskIndex) of column.tasks"
             :key="task.id"
-            :to="{ name: 'Task', params: { id: task.id } }"
-          >
-            <column-task
-              :column="column"
-              :task="task"
-              :column-index="columnIndex"
-              :task-index="$taskIndex"
-              @dragend="isDragging = false"
-              @drop="isDragging = false"
-              @dragover.stop
-            />
-          </router-link>
+            :column="column"
+            :task="task"
+            :column-index="columnIndex"
+            :task-index="$taskIndex"
+            @dragend="isDragging = false"
+            @drop="isDragging = false"
+            @dragover.stop
+            @click="$router.push({ name: 'Task', params: { id: task.id } })"
+          />
 
           <input
             type="text"
