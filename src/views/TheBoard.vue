@@ -10,10 +10,10 @@
 
       <div class="column mr-2">
         <input
+          v-model="newColumnName"
           type="text"
           class="block p-2 w-full bg-transparent "
           placeholder="+ Enter new column name"
-          v-model="newColumnName"
           @keyup.enter="board.createColumn(newColumnName); newColumnName = ''"
         >
       </div>
@@ -25,15 +25,15 @@
       class="task-bg"
       @click.self="$router.push({ name: 'Board' })"
     >
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useBoardStore } from '@/stores';
-import BoardColumn from '@/components/BoardColumn.vue';
+import { ref } from "vue";
+import { useBoardStore } from "@/stores";
+import BoardColumn from "@/components/BoardColumn.vue";
 
 const board = useBoardStore();
 const newColumnName = ref("");

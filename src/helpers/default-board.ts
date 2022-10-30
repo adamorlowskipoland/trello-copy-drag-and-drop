@@ -1,55 +1,55 @@
-import { uuid } from './utils'
-import type { Board } from '../models';
+import { uuid } from "./utils";
+import type { Board } from "@/models";
 
 const board: Board = {
-  name: 'trello-copy',
+  name: "trello-copy",
   columns: [
     {
-      name: 'todo',
+      name: "todo",
       tasks: [
         {
-          description: '',
-          name: 'first task',
+          description: "",
+          name: "first task",
           id: uuid(),
-          userAssigned: null
+          userAssigned: null,
         },
         {
-          description: '',
-          name: 'second task',
+          description: "",
+          name: "second task",
           id: uuid(),
-          userAssigned: null
+          userAssigned: null,
         },
         {
-          description: '',
-          name: 'and thrid',
+          description: "",
+          name: "and thrid",
           id: uuid(),
-          userAssigned: null
-        }
-      ]
+          userAssigned: null,
+        },
+      ],
     },
     {
-      name: 'in-progress',
+      name: "in-progress",
       tasks: [
         {
-          description: '',
-          name: 'first task',
+          description: "",
+          name: "first task",
           id: uuid(),
-          userAssigned: null
-        }
-      ]
+          userAssigned: null,
+        },
+      ],
     },
     {
-      name: 'done',
+      name: "done",
       tasks: [
         {
-          description: '',
-          name: 'first task',
+          description: "",
+          name: "first task",
           id: uuid(),
-          userAssigned: null
-        }
-      ]
-    }
-  ]
+          userAssigned: null,
+        },
+      ],
+    },
+  ],
 };
 
-export default board
+export default board;

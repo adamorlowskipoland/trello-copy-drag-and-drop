@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import defaultBoard from '../helpers/default-board';
-import type { Board, Column, Task } from '@/models';
-import { uuid } from '@/helpers/utils';
+import { defineStore } from "pinia";
+import defaultBoard from "@/helpers/default-board";
+import { uuid } from "@/helpers/utils";
+import type { Board, Column, Task } from "@/models";
 
 const savedBoard = localStorage.getItem("board");
 const board: Board = savedBoard ? JSON.parse(savedBoard) : defaultBoard;
@@ -35,7 +35,7 @@ export const useBoardStore = defineStore("boardStore", {
       tasks.push({
         name,
         id: uuid(),
-        description: '',
+        description: "",
         userAssigned: null,
       });
     },

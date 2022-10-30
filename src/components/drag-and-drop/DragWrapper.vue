@@ -1,18 +1,18 @@
 <template>
   <div
+    :class="{ 'bg-gradient-to-r from-red-500': isDragging }"
     draggable="true"
     @dragover.prevent
     @dragenter.prevent
     @dragstart.self="drag"
     @dragend="isDragging = false"
-    :class="{ 'bg-gradient-to-r from-red-500': isDragging }"
   >
     <slot :is-dragging="isDragging" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps<{
   transferData: unknown;

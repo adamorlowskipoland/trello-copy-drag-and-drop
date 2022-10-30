@@ -1,5 +1,8 @@
 <template>
-  <div v-if="task" class="task-view">
+  <div
+    v-if="task"
+    class="task-view"
+  >
     <div class="flex flex-col flex-grow items-start justify-between px-4">
       <input
         type="text"
@@ -21,11 +24,11 @@
 
 <script lang="ts" setup>
 import { useBoardStore } from "@/stores";
-import type { Task } from '@/models';
+import type { Task } from "@/models";
 
 const props = defineProps<{
-  id: string
-}>()
+  id: string;
+}>();
 
 const board = useBoardStore();
 const task = board.getTask(props.id) as Task;
@@ -38,7 +41,7 @@ const updateTaskProperty = (event: Event, key: keyof Task) => {
       value: (event.target as HTMLInputElement).value,
     });
   }
-}
+};
 </script>
 
 <style>

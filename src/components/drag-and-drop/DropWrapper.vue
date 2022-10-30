@@ -1,21 +1,21 @@
 <template>
   <div
+    :class="{ 'bg-gradient-to-r from-green-500': isOver }"
     @dragenter.prevent
     @dragleave.prevent="isOver = false"
     @dragover.prevent="isOver = true"
     @drop.stop="drop"
-    :class="{ 'bg-gradient-to-r from-green-500': isOver }"
   >
-    <slot :is-over="isOver"/>
+    <slot :is-over="isOver" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const emit = defineEmits<{
   (eventName: "drop", payload: unknown): void,
-}>()
+}>();
 
 const isOver = ref(false);
 

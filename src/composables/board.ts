@@ -1,5 +1,5 @@
-import type { Task } from '@/models';
-import { useBoardStore } from '@/stores';
+import type { Task } from "@/models";
+import { useBoardStore } from "@/stores";
 
 export interface TransferData {
   type: string;
@@ -32,7 +32,7 @@ export const useBoard = (board = useBoardStore()): UseBoard => {
       });
       (event.target as HTMLInputElement).value = "";
     }
-  }
+  };
 
   const moveTask: UseBoard["moveTask"] = (
     { fromColumnIndex, fromTaskIndex },
