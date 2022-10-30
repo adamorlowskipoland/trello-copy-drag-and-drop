@@ -46,6 +46,7 @@
             :task="task"
             :column-index="columnIndex"
             :task-index="$taskIndex"
+            @dragover.stop
             @click="$router.push({ name: 'Task', params: { id: task.id } })"
           />
 
