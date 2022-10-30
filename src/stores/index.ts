@@ -28,6 +28,9 @@ export const useBoardStore = defineStore("boardStore", {
         tasks: [],
       });
     },
+    deleteColumn(columnIndex: number) {
+      this.columns.splice(columnIndex, 1);
+    },
     createTask({ tasks, name }: { tasks: Task[]; name: string }) {
       tasks.push({
         name,
@@ -35,6 +38,9 @@ export const useBoardStore = defineStore("boardStore", {
         description: '',
         userAssigned: null,
       });
+    },
+    deleteTask(columnIndex: number, taskIndex: number): void {
+      this.columns[columnIndex]?.tasks.splice(taskIndex, 1);
     },
     updateColumnName(column: Column, updatedName: string) {
       column.name = updatedName;

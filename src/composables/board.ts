@@ -1,25 +1,22 @@
 import type { Task } from '../models';
 import { useBoardStore } from '../stores';
 
-interface TransferData {
+export interface TransferData {
   type: string;
   fromColumnIndex: number;
-}
-
-interface TransferDataTask extends TransferData {
-  fromTaskIndex: number;
+  fromTaskIndex?: number;
 }
 
 interface UseBoard {
   addTask: (event: Event, tasks: Task[]) => void;
   moveTask: (
-    transferData: TransferDataTask,
+    transferData: TransferData & { fromTaskIndex: number },
     toColumnIndex: number,
     toTaskIndex?: number
   ) => void;
   moveColumn: (transferData: TransferData, toColumnIndex: number) => void;
   handleDrop: (
-    transferData: TransferData | TransferDataTask,
+    transferData: TransferData,
     toColumnIndex: number,
     toTaskIndex?: number
   ) => void;
@@ -68,8 +65,9 @@ export const useBoard = (board = useBoardStore()): UseBoard => {
     toColumnIndex,
     toTaskIndex
   ): void => {
+    console.log('%c Line: handle drop, msg: : ', 'color: lightseagreen', transferData);
     if (transferData.type === "task") {
-      moveTask(transferData as TransferDataTask, toColumnIndex, toTaskIndex);
+      moveTask(transferData as TransferData & { fromTaskIndex: number }, toColumnIndex, toTaskIndex);
     } else {
       moveColumn(transferData, toColumnIndex);
     }

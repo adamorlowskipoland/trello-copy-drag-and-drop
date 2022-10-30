@@ -16,8 +16,8 @@ const props = defineProps<{
 
 const onDrag = (event: DragEvent): void => {
   if (event.dataTransfer) {
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.effectAllowed = "copy";
+    event.dataTransfer.dropEffect = "copy";
     event.dataTransfer.setData("payload", JSON.stringify(props.transferData));
   }
 };

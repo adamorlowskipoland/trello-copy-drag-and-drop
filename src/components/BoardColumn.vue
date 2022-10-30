@@ -2,6 +2,7 @@
   <drop-wrapper @drop="handleDrop($event, columnIndex)">
     <drag-wrapper
       :transfer-data="{ type: 'column', fromColumnIndex: columnIndex }"
+      @dragstart="isDragging = true"
     >
       <div class="column">
         <div class="flex justify-between items-center mb-2 font-bold">
@@ -33,6 +34,8 @@
               :task="task"
               :column-index="columnIndex"
               :task-index="$taskIndex"
+              @dragend="isDragging = false"
+              @drop="isDragging = false"
             />
           </router-link>
 
@@ -46,9 +49,14 @@
       </div>
     </drag-wrapper>
   </drop-wrapper>
+  <drop-wrapper v-if="isDragging" @drop="handleDelete">
+    <div class="bg-rose-100 rounded border-4 border-dashed border-rose-300 p-4 fixed bottom-0 left-0 right-0 z-50">
+      <h3 class="text-lg font-medium leading-6 text-rose-400 tracking-widest">DELETE</h3>
+    </div>
+  </drop-wrapper>
 </template>
 <script setup lang="ts">
-import { useBoard } from '../composables/board';
+import { TransferData, useBoard } from '../composables/board';
 import type { Column, Task } from '../models';
 import ColumnTask from '../components/ColumnTask.vue';
 import DragWrapper from '../components/drag-and-drop/DragWrapper.vue';
@@ -66,6 +74,17 @@ const { addTask, handleDrop } = useBoard();
 const refColumnNameInput = ref<HTMLInputElement | null>(null);
 const isEditingColumnName = ref(false);
 const columnName = ref(props.column.name);
+
+const isDragging = ref(false);
+
+const handleDelete = ({ type, fromColumnIndex, fromTaskIndex }: TransferData) => {
+  if (type === "task" && fromTaskIndex !== undefined) {
+    board.deleteTask(fromColumnIndex, fromTaskIndex);
+  } else {
+    board.deleteColumn(fromColumnIndex);
+  }
+  isDragging.value = false;
+}
 
 const toggleColumnNameEdition = async (): Promise<void> => {
   isEditingColumnName.value = true;
