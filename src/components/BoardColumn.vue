@@ -1,5 +1,5 @@
 <template>
-  <drop-wrapper @drop="handleDrop($event, columnIndex)">
+  <drop-wrapper class="mr-4" @drop="handleDrop($event, columnIndex)">
     <drag-wrapper
       :transfer-data="{ type: 'column', fromColumnIndex: columnIndex }"
       @dragstart="isDragging = true"
@@ -36,6 +36,7 @@
               :task-index="$taskIndex"
               @dragend="isDragging = false"
               @drop="isDragging = false"
+              @dragover.stop
             />
           </router-link>
 
@@ -51,7 +52,10 @@
   </drop-wrapper>
   <drop-wrapper v-if="isDragging" @drop="handleDelete">
     <div class="bg-rose-100 rounded border-4 border-dashed border-rose-300 p-4 fixed bottom-0 left-0 right-0 z-50">
-      <h3 class="text-lg font-medium leading-6 text-rose-400 tracking-widest">DELETE</h3>
+      <h3 class="text-lg font-medium leading-6 text-rose-400 tracking-widest">
+        DELETE
+        <img src="../assets/bin.svg" class="w-4 inline" alt="bin icon" title="Delete" />
+      </h3>
     </div>
   </drop-wrapper>
 </template>
@@ -95,7 +99,7 @@ const toggleColumnNameEdition = async (): Promise<void> => {
 
 <style>
 .column {
-  @apply bg-gray-100 p-2 mr-4 text-left shadow rounded;
+  @apply bg-gray-100 p-2 text-left shadow rounded;
   min-width: 350px;
 }
 </style>

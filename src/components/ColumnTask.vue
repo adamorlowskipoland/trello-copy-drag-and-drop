@@ -1,12 +1,15 @@
 <template>
-  <drop-wrapper @drop="handleDrop($event, columnIndex, taskIndex)">
+  <drop-wrapper class="mb-2" @drop="handleDrop($event, columnIndex, taskIndex)" v-slot="{ isOver }">
     <drag-wrapper
       :transfer-data="{ type: 'task', fromColumnIndex: columnIndex, fromTaskIndex: taskIndex }"
+      v-slot="{ isDragging }"
     >
-      <div class="task">
-    <span class="w-full shrink-0 font-bold">
-      {{ task.name }}
-    </span>
+      <div
+        class="task"
+      >
+        <span class="w-full shrink-0 font-bold">
+          {{ task.name }}
+        </span>
         <p
           v-if="task.description"
           class="w-full shrink-0 mt-1 text-sm"
@@ -36,6 +39,6 @@ const { handleDrop } = useBoard();
 
 <style scoped>
 .task {
-  @apply flex items-center flex-wrap shadow mb-2 py-2 px-2 rounded bg-white text-gray-600 no-underline;
+  @apply flex items-center flex-wrap shadow p-2 rounded bg-white text-gray-600 no-underline;
 }
 </style>
