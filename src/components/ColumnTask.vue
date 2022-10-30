@@ -4,9 +4,7 @@
       :transfer-data="{ type: 'task', fromColumnIndex: columnIndex, fromTaskIndex: taskIndex }"
       v-slot="{ isDragging }"
     >
-      <div
-        class="task"
-      >
+      <div class="task">
         <span class="w-full shrink-0 font-bold">
           {{ task.name }}
         </span>

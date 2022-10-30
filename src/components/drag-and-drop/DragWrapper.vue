@@ -5,7 +5,7 @@
     @dragenter.prevent
     @dragstart.self="onDrag"
     @dragend="isDragging = false"
-    :class="{ 'border-2 border-dashed border-rose-300': isDragging }"
+    :class="{ 'bg-gradient-to-r from-red-500': isDragging }"
   >
     <slot :is-dragging="isDragging" />
   </div>

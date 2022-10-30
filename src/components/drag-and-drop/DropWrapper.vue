@@ -4,7 +4,7 @@
     @dragleave.prevent="isOver = false"
     @dragover.prevent="isOver = true"
     @drop.stop="onDrop"
-    :class="{ 'border-2 border-dashed border-green-300': isOver }"
+    :class="{ 'bg-gradient-to-r from-green-500': isOver }"
   >
     <slot :is-over="isOver" />
   </div>
