@@ -50,14 +50,16 @@
       </div>
     </drag-wrapper>
   </drop-wrapper>
-  <drop-wrapper v-if="isDragging" @drop="handleDelete">
-    <div class="bg-rose-100 rounded border-4 border-dashed border-rose-300 p-4 fixed bottom-0 left-0 right-0 z-50">
-      <h3 class="text-lg font-medium leading-6 text-rose-400 tracking-widest">
-        DELETE
-        <img src="../assets/bin.svg" class="w-4 inline" alt="bin icon" title="Delete" />
-      </h3>
-    </div>
-  </drop-wrapper>
+  <teleport to="#modals">
+    <drop-wrapper v-if="isDragging" @drop="handleDelete">
+      <div class="bg-rose-100 rounded border-4 border-dashed border-rose-300 p-4 fixed bottom-0 left-0 right-0 z-50">
+        <h3 class="text-lg font-medium leading-6 text-rose-400 tracking-widest">
+          DELETE
+          <img src="../assets/bin.svg" class="w-4 inline" alt="bin icon" title="Delete" />
+        </h3>
+      </div>
+    </drop-wrapper>
+  </teleport>
 </template>
 <script setup lang="ts">
 import { TransferData, useBoard } from '../composables/board';
