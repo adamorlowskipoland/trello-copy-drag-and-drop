@@ -41,7 +41,7 @@ const newColumnName = ref("");
 
 <style>
 .board {
-  @apply p-4 bg-teal-100 h-screen overflow-auto;
+  @apply p-4 bg-teal-100 h-screen overflow-auto relative;
 }
 
 .task-bg {

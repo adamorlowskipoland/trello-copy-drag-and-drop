@@ -65,7 +65,6 @@ export const useBoard = (board = useBoardStore()): UseBoard => {
     toColumnIndex,
     toTaskIndex
   ): void => {
-    console.log('%c Line: handle drop, msg: : ', 'color: lightseagreen', transferData);
     if (transferData.type === "task") {
       moveTask(transferData as TransferData & { fromTaskIndex: number }, toColumnIndex, toTaskIndex);
     } else {

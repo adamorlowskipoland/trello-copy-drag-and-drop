@@ -2,7 +2,7 @@
   <drop-wrapper class="mr-4" @drop="handleDrop($event, columnIndex)">
     <drag-wrapper
       :transfer-data="{ type: 'column', fromColumnIndex: columnIndex }"
-      @dragstart="isDragging = true"
+      v-slot="{ isDragging }"
     >
       <div class="column">
         <div class="flex justify-between items-center mb-2 font-bold">
@@ -20,7 +20,7 @@
             {{ column.name }}
           </span>
           <button v-show="!isEditingColumnName" @click="board.deleteColumn(columnIndex)">
-            <img src="../assets/bin.svg" class="w-4 hover:scale-125" alt="bin icon" title="Delete" />
+            <img src="../assets/bin.svg" class="w-4 hover:scale-125" alt="bin icon" title="Delete column" />
           </button>
         </div>
         <div class="list-reset">
@@ -31,9 +31,6 @@
             :task="task"
             :column-index="columnIndex"
             :task-index="$taskIndex"
-            @dragend="isDragging = false"
-            @drop="isDragging = false"
-            @dragover.stop
             @click="$router.push({ name: 'Task', params: { id: task.id } })"
           />
 
@@ -45,18 +42,16 @@
           >
         </div>
       </div>
+      <drop-wrapper v-if="isDragging" @drop="board.deleteColumn(columnIndex)">
+        <div class="bg-rose-100 rounded border-2 border-dashed border-rose-300 p-2 absolute bottom-0 left-0 right-0">
+          <p class="text-sm text-center font-medium leading-6 text-rose-400 tracking-widest">
+            Delete column
+            <img src="../assets/bin.svg" class="w-4 inline" alt="bin icon" title="Delete" />
+          </p>
+        </div>
+      </drop-wrapper>
     </drag-wrapper>
   </drop-wrapper>
-  <teleport to="#modals">
-    <drop-wrapper v-if="isDragging" @drop="handleDelete">
-      <div class="bg-rose-100 rounded border-4 border-dashed border-rose-300 p-4 fixed bottom-0 left-0 right-0 z-50">
-        <h3 class="text-lg font-medium leading-6 text-rose-400 tracking-widest">
-          DELETE
-          <img src="../assets/bin.svg" class="w-4 inline" alt="bin icon" title="Delete" />
-        </h3>
-      </div>
-    </drop-wrapper>
-  </teleport>
 </template>
 <script setup lang="ts">
 import { TransferData, useBoard } from '../composables/board';
@@ -78,17 +73,6 @@ const refColumnNameInput = ref<HTMLInputElement | null>(null);
 const isEditingColumnName = ref(false);
 const columnName = ref(props.column.name);
 
-const isDragging = ref(false);
-
-const handleDelete = ({ type, fromColumnIndex, fromTaskIndex }: TransferData) => {
-  if (type === "task" && fromTaskIndex !== undefined) {
-    board.deleteTask(fromColumnIndex, fromTaskIndex);
-  } else {
-    board.deleteColumn(fromColumnIndex);
-  }
-  isDragging.value = false;
-}
-
 const toggleColumnNameEdition = async (): Promise<void> => {
   isEditingColumnName.value = true;
   await nextTick();
@@ -98,7 +82,7 @@ const toggleColumnNameEdition = async (): Promise<void> => {
 
 <style>
 .column {
-  @apply bg-gray-100 p-2 text-left shadow rounded;
+  @apply bg-gray-100 p-2 text-left shadow rounded relative;
   min-width: 350px;
 }
 </style>
