@@ -32,8 +32,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useBoardStore } from '../stores';
-import BoardColumn from '../components/BoardColumn.vue';
+import { useBoardStore } from '@/stores';
+import BoardColumn from '@/components/BoardColumn.vue';
 
 const board = useBoardStore();
 const newColumnName = ref("");

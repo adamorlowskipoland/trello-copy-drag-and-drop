@@ -54,13 +54,13 @@
   </drop-wrapper>
 </template>
 <script setup lang="ts">
-import { TransferData, useBoard } from '../composables/board';
-import type { Column, Task } from '../models';
-import ColumnTask from '../components/ColumnTask.vue';
-import DragWrapper from '../components/drag-and-drop/DragWrapper.vue';
-import DropWrapper from '../components/drag-and-drop/DropWrapper.vue';
-import { useBoardStore } from '../stores';
 import { nextTick, ref } from 'vue';
+import { useBoard } from '@/composables/board';
+import ColumnTask from '@/components/ColumnTask.vue';
+import DragWrapper from '@/components/drag-and-drop/DragWrapper.vue';
+import DropWrapper from '@/components/drag-and-drop/DropWrapper.vue';
+import { useBoardStore } from '@/stores';
+import type { Column, Task } from '@/models';
 
 const props = defineProps<{
   column: Column;

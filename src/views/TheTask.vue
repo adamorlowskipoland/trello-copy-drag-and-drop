@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useBoardStore } from "../stores";
-import type { Task } from '../models';
+import { useBoardStore } from "@/stores";
+import type { Task } from '@/models';
 
 const props = defineProps<{
   id: string

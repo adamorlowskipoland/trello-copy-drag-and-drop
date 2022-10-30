@@ -1,5 +1,5 @@
-import type { Task } from '../models';
-import { useBoardStore } from '../stores';
+import type { Task } from '@/models';
+import { useBoardStore } from '@/stores';
 
 export interface TransferData {
   type: string;
