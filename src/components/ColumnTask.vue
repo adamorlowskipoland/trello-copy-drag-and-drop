@@ -7,6 +7,8 @@
     <drag-wrapper
       v-slot="{ isDragging }"
       :transfer-data="{ type: 'task', fromColumnIndex: columnIndex, fromTaskIndex: taskIndex }"
+      @dragstart="showDeleteZone = true"
+      @dragend="showDeleteZone = false"
     >
       <div
         class="task"
@@ -22,27 +24,28 @@
           {{ task.description }}
         </p>
       </div>
-      <drop-wrapper
-        v-if="isDragging"
-        @drop="board.deleteTask(columnIndex, taskIndex)"
-      >
-        <div class="bg-rose-100 rounded border-2 border-dashed border-rose-300 p-2 absolute bottom-0 left-0 right-0">
-          <p class="text-sm text-center font-medium leading-6 text-rose-400 tracking-widest">
-            Delete task
-            <img
-              src="@/assets/bin.svg"
-              class="w-4 inline"
-              alt="bin icon"
-              title="Delete"
-            >
-          </p>
-        </div>
-      </drop-wrapper>
     </drag-wrapper>
+    <drop-wrapper
+      v-if="showDeleteZone"
+      @drop="board.deleteTask(columnIndex, taskIndex)"
+    >
+      <div class="bg-rose-100 rounded border-2 border-dashed border-rose-300 p-2 absolute bottom-0 left-0 right-0">
+        <p class="text-sm text-center font-medium leading-6 text-rose-400 tracking-widest">
+          Delete task
+          <img
+            src="@/assets/bin.svg"
+            class="w-4 inline"
+            alt="bin icon"
+            title="Delete"
+          >
+        </p>
+      </div>
+    </drop-wrapper>
   </drop-wrapper>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
 import { useBoard } from "@/composables/board";
 import DragWrapper from "@/components/drag-and-drop/DragWrapper.vue";
 import DropWrapper from "@/components/drag-and-drop/DropWrapper.vue";
@@ -58,6 +61,8 @@ defineProps<{
 
 const board = useBoardStore();
 const { handleDrop } = useBoard();
+
+const showDeleteZone = ref(false);
 </script>
 
 <style scoped>

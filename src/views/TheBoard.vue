@@ -8,13 +8,14 @@
         :column-index="$columnIndex"
       />
 
-      <div class="column mr-2">
+      <div class="column bg-white mr-2">
         <input
           v-model="newColumnName"
           type="text"
           class="block p-2 w-full bg-transparent "
           placeholder="+ Enter new column name"
           @keyup.enter="board.createColumn(newColumnName); newColumnName = ''"
+          @keyup.space.shift.exact="board.$reset()"
         >
       </div>
     </div>
@@ -37,6 +38,10 @@ import BoardColumn from "@/components/BoardColumn.vue";
 
 const board = useBoardStore();
 const newColumnName = ref("");
+const checkForReset = () => {
+  console.log("%c Line: v, msg: : ", "color: skyblue", board);
+  // board.$reset();
+};
 </script>
 
 <style>

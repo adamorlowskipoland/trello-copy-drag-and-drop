@@ -7,6 +7,8 @@
     <drag-wrapper
       v-slot="{ isDragging }"
       :transfer-data="{ type: 'column', fromColumnIndex: columnIndex }"
+      @dragstart="showDeleteZone = true"
+      @dragend="showDeleteZone = false"
     >
       <div
         class="column"
@@ -50,7 +52,9 @@
             :task="task"
             :column-index="columnIndex"
             :task-index="$taskIndex"
+            @dragstart.stop
             @dragover.stop
+            @dragend.stop
             @click="$router.push({ name: 'Task', params: { id: task.id } })"
           />
 
@@ -62,23 +66,23 @@
           >
         </div>
       </div>
-      <drop-wrapper
-        v-if="isDragging"
-        @drop="board.deleteColumn(columnIndex)"
-      >
-        <div class="bg-rose-100 rounded border-2 border-dashed border-rose-300 p-2 absolute bottom-0 left-0 right-0">
-          <p class="text-sm text-center font-medium leading-6 text-rose-400 tracking-widest">
-            Delete column
-            <img
-              src="@/assets/bin.svg"
-              class="w-4 inline"
-              alt="bin icon"
-              title="Delete"
-            >
-          </p>
-        </div>
-      </drop-wrapper>
     </drag-wrapper>
+    <drop-wrapper
+      v-if="showDeleteZone"
+      @drop="board.deleteColumn(columnIndex)"
+    >
+      <div class="bg-rose-100 rounded border-2 border-dashed border-rose-300 p-2 absolute bottom-0 left-0 right-0">
+        <p class="text-sm text-center font-medium leading-6 text-rose-400 tracking-widest">
+          Delete column
+          <img
+            src="@/assets/bin.svg"
+            class="w-4 inline"
+            alt="bin icon"
+            title="Delete"
+          >
+        </p>
+      </div>
+    </drop-wrapper>
   </drop-wrapper>
 </template>
 <script setup lang="ts">
@@ -100,6 +104,7 @@ const { addTask, handleDrop } = useBoard();
 const refColumnNameInput = ref<HTMLInputElement | null>(null);
 const isEditingColumnName = ref(false);
 const columnName = ref(props.column.name);
+const showDeleteZone = ref(false);
 
 const toggleColumnNameEdition = async (): Promise<void> => {
   isEditingColumnName.value = true;
