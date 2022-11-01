@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import type { TransferData } from '@/composables/board';
+import type { TransferData } from "@/composables/board";
 
 const props = defineProps<{
   transferData: TransferData;
