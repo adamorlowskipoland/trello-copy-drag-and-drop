@@ -1,6 +1,7 @@
 <template>
   <drop-wrapper
     v-slot="{ isOver }"
+    :can-drop="draggedItem?.type === 'task'"
     class="mb-2"
     @drop="handleDrop($event, columnIndex, taskIndex)"
   >
@@ -42,6 +43,7 @@ import DropWrapper from "@/components/drag-and-drop/DropWrapper.vue";
 import DeleteZone from "@/components/DeleteZone.vue";
 import { useBoardStore } from "@/stores";
 import type { Column, Task } from "@/models";
+import { useDragAndDrop } from "@/composables/dragAndDrop";
 
 defineProps<{
   task: Task;
@@ -52,6 +54,7 @@ defineProps<{
 
 const board = useBoardStore();
 const { handleDrop } = useBoard();
+const { draggedItem } = useDragAndDrop();
 
 const showDeleteZone = ref(false);
 </script>

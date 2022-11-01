@@ -1,5 +1,7 @@
 import type { Task } from "@/models";
 import { useBoardStore } from "@/stores";
+import { useDragAndDrop } from "@/composables/dragAndDrop";
+const { draggedItem } = useDragAndDrop();
 
 export interface TransferData {
   type: string;
@@ -70,6 +72,7 @@ export const useBoard = (board = useBoardStore()): UseBoard => {
     } else {
       moveColumn(transferData, toColumnIndex);
     }
+    draggedItem.value = null;
   };
 
   return {
