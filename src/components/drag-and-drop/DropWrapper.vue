@@ -1,9 +1,9 @@
 <template>
   <div
-    :class="{ 'bg-green-100 bg-stripes bg-07': isOver }"
+    :class="{ 'bg-green-100 bg-stripes bg-07': isOver && canDrop }"
     @dragenter.prevent
     @dragleave.prevent="isOver = false"
-    @dragover.prevent="isOver = true"
+    @dragover.prevent="canDrop && (isOver = true)"
     @drop.stop="drop"
   >
     <slot :is-over="isOver" />
@@ -13,6 +13,11 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
+const props = withDefaults(
+  defineProps<{ canDrop?: boolean; }>(),
+  { canDrop: true }
+);
+
 const emit = defineEmits<{
   (eventName: "drop", payload: unknown): void,
 }>();
@@ -20,7 +25,7 @@ const emit = defineEmits<{
 const isOver = ref(false);
 
 const drop = (event: DragEvent): void => {
-  if (event.dataTransfer) {
+  if (props.canDrop && event.dataTransfer) {
     const payload = event.dataTransfer.getData("payload");
     if (payload) {
       const transferData = JSON.parse(payload);

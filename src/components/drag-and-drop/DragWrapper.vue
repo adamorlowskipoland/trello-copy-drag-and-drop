@@ -13,10 +13,14 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useDragAndDrop } from "@/composables/dragAndDrop";
+import type { TransferData } from "@/composables/board";
 
 const props = defineProps<{
-  transferData: unknown;
+  transferData: TransferData;
 }>();
+
+const { draggedItem } = useDragAndDrop();
 
 const isDragging = ref(false);
 
@@ -25,6 +29,7 @@ const drag = (event: DragEvent): void => {
     event.dataTransfer.effectAllowed = "copy";
     event.dataTransfer.dropEffect = "copy";
     event.dataTransfer.setData("payload", JSON.stringify(props.transferData));
+    draggedItem.value = props.transferData;
     isDragging.value = true;
   }
 };
