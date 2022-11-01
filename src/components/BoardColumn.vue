@@ -101,6 +101,7 @@ const props = defineProps<{
 
 const board = useBoardStore();
 const { addTask, handleDrop } = useBoard();
+
 const refColumnNameInput = ref<HTMLInputElement | null>(null);
 const isEditingColumnName = ref(false);
 const columnName = ref(props.column.name);
