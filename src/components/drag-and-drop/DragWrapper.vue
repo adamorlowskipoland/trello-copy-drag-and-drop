@@ -26,8 +26,8 @@ const isDragging = ref(false);
 
 const drag = (event: DragEvent): void => {
   if (event.dataTransfer) {
-    event.dataTransfer.effectAllowed = "copy";
-    event.dataTransfer.dropEffect = "copy";
+    event.dataTransfer.effectAllowed = "all";
+    event.dataTransfer.dropEffect = "move";
     event.dataTransfer.setData("payload", JSON.stringify(props.transferData));
     draggedItem.value = props.transferData;
     isDragging.value = true;
