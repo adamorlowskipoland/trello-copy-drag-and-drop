@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{ 'bg-green-100 bg-stripes bg-07': isOver && canDrop }"
-    @dragenter.prevent
-    @dragleave.prevent="isOver = false"
-    @dragover.prevent="canDrop && (isOver = true)"
+    @dragenter.stop.prevent="dragEnter"
+    @dragleave.stop.prevent="dragLeave"
+    @dragover.prevent
     @drop.stop="drop"
   >
     <slot :is-over="isOver" />
@@ -11,7 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import type { TransferData } from "@/composables/board";
 
 const props = withDefaults(
   defineProps<{ canDrop?: boolean; }>(),
@@ -19,10 +20,24 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (eventName: "drop", payload: unknown): void,
+  (eventName: "drop", payload: TransferData): void,
 }>();
 
-const isOver = ref(false);
+const enteredTarget = ref<DragEvent["target"] | null>(null);
+
+const isOver = computed(() => !!enteredTarget.value);
+
+const dragEnter = (event: DragEvent): void => {
+  if (props.canDrop) {
+    enteredTarget.value = event.target;
+  }
+};
+
+const dragLeave = (event: DragEvent): void => {
+  if (enteredTarget.value === event.target) {
+    enteredTarget.value = null;
+  }
+};
 
 const drop = (event: DragEvent): void => {
   if (props.canDrop && event.dataTransfer) {
@@ -31,7 +46,7 @@ const drop = (event: DragEvent): void => {
       const transferData = JSON.parse(payload);
       emit("drop", transferData);
     }
-    isOver.value = false;
+    enteredTarget.value = null;
   }
 };
 </script>
