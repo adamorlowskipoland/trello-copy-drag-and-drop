@@ -3,7 +3,7 @@ import defaultBoard from "@/helpers/default-board";
 import { uuid } from "@/helpers/utils";
 import type { Board, Column, Task } from "@/models";
 
-const savedBoard = localStorage.getItem("board");
+const savedBoard = localStorage.getItem("trello-copy-board");
 const board: Board = savedBoard ? JSON.parse(savedBoard) : defaultBoard;
 
 export const useBoardStore = defineStore("boardStore", {

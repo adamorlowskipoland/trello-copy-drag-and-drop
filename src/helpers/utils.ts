@@ -9,7 +9,7 @@ export function saveStatePlugin(store: Store<"boardStore", Board>) {
   store.$subscribe(
     (mutation, state) => {
       localStorage.setItem(
-        "board",
+        "trello-copy-board",
         JSON.stringify(state)
       );
     },
